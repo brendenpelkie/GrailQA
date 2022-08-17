@@ -86,6 +86,22 @@ To run Transduction+GloVe:
 $ PYTHONHASHSEED=23 python run.py predict predict saved_models/GloVe/model.tar.gz data/grailqa_v1.0_test_public.json --include-package constrained_seq2seq --include-package constrained_seq2seq_reader --predictor seq2seq --use-dataset-reader -c model_configs/test/glove_vp.jsonnet --output-file glove_vp.txt --cuda-device 0
 ```
 
+To run BERT-based predictions with a user-generated question and vocab set (ie, smoke test):
+Set cuda-device to 0 to use a GPU
+
+```
+PYTHONHASHSEED=23 python run.py predict saved_models/BERT/model.tar.gz data/extended_smoketest_questions.json --include-package bert_constrained_seq2seq --include-package bert_seq2seq_reader_smoke --include-package utils.bert_interface --use-dataset-reader --predictor seq2seq -c model_configs/test/bert_vp.jsonnet --output-file bert_vp_smoketest_extended_singleparent.txt --cuda-device -1
+```
+
+### Fine Tuning
+
+The allenNLP library the original grailQA model is based on provides a fine-tuning command that can be used to continute traning a previously trained model on new data. This is what I will be using to fine-tune grailQA to our question sets. An example of using this command:
+
+```
+PYTHONHASHSEED=23 python run.py fine-tune --model-archive saved_models/BERT/model.tar.gz --serialization-dir finetune/ --include-package bert_constrained_seq2seq --include-package bert_seq2seq_reader_smoke --include-package utils.bert_interface -c model_configs/training/train_bert.jsonnet
+```
+
+
 ### Entity Linking
 We also release our code for entity linking to facilitate future research. Similar to most other KBQA methods, entity linking is a separate module from our main model. If you just want to run our main models, you do not need to re-run our entity linking module because our models directly use the entity linking results under `entity_linking/`.
 
