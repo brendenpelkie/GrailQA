@@ -69,16 +69,7 @@ class Instance(Mapping[str, Field]):
         if not self.indexed:
             self.indexed = True
             for field in self.fields.values():
-                print('vocab type: ', type(vocab))
-                print('field type: ', type(field))
-                #print('field')
-                try:
-                    print(field.metadata)
-                except:
-                    pass
-                #print('###########################')
-                #print(vocab.self.values())
-                #try:
+
                 field.index(vocab)
                 #except:
                 #    print('field: ', field)
