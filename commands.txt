@@ -1,0 +1,10 @@
+Keep commands for running and training grailQA handy
+
+
+Fine-tune model: 
+
+PYTHONHASHSEED=23 python run.py fine-tune --model-archive saved_models/BERT/model.tar.gz --serialization-dir finetune/ --include-package bert_constrained_seq2seq --include-package bert_seq2seq_reader_smoke --include-package utils.bert_interface -c model_configs/training/train_bert.jsonnet
+
+Make predictions with model, using our 'smoke test' vocab:
+
+PYTHONHASHSEED=23 python run.py predict saved_models/BERT/model.tar.gz data/extended_smoketest_questions.json --include-package bert_constrained_seq2seq --include-package bert_seq2seq_reader_smoke --include-package utils.bert_interface --use-dataset-reader --predictor seq2seq -c model_configs/test/bert_vp.jsonnet --output-file bert_vp_smoketest_extended_singleparent.txt --cuda-device -1
